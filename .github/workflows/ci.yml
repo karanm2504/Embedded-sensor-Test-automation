@@ -1,4 +1,5 @@
 name: Embedded Sensor CI
+
 on:
   push:
     branches:
@@ -6,19 +7,20 @@ on:
   pull_request:
     branches:
       - main
+
 permissions:
   contents: read
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.x"
 
@@ -40,7 +42,7 @@ jobs:
 
       - name: Upload test report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sensor-test-report
           path: reports/test_report.txt
