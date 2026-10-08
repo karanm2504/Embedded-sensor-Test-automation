@@ -1,0 +1,46 @@
+name: Embedded Sensor CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Show tool versions
+        run: |
+          gcc --version
+          python --version
+          make --version
+
+      - name: Build simulator
+        run: make
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Generate test report
+        if: always()
+        run: make report
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sensor-test-report
+          path: reports/test_report.txt
