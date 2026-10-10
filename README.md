@@ -31,7 +31,7 @@ A Python automation framework executes the simulator, parses its output, validat
 | `range` | Injects an out-of-range temperature at sample 5 | Sample 5 reports `RANGE_FAULT` |
 | `invalid` | Injects invalid sensor data at sample 5 | Sample 5 reports `INVALID_DATA` |
 | `frozen` | Repeats the same temperature value | Automation detects frozen sensor behaviour |
-| `timeout` | Simulates a sensor communication delay | Automation detects a timeout |
+| `timeout` | Omits one expected sensor response | Automation detects the missing sample |
 
 
 ## Architecture

@@ -5,8 +5,30 @@ from sensor_runner import parse_sensor_output, run_simulator
 
 class SensorSimulatorTests(unittest.TestCase):
     def test_normal_mode(self):
-        # Your existing normal-test code remains here.
-        pass
+        output = run_simulator("normal")
+        samples = parse_sensor_output(output)
+
+        self.assertEqual(len(samples), 10)
+
+        expected_ids = [
+            str(sample_id)
+            for sample_id in range(1, 11)
+        ]
+
+        actual_ids = [
+            sample["sample_id"]
+            for sample in samples
+        ]
+
+        self.assertEqual(actual_ids, expected_ids)
+
+        for sample in samples:
+            self.assertEqual(sample["status"], "OK")
+
+            temperature_c = float(sample["temperature_c"])
+
+            self.assertGreaterEqual(temperature_c, 20.0)
+            self.assertLessEqual(temperature_c, 30.0)
 
     def test_range_mode(self):
         output = run_simulator("range")
